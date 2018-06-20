@@ -1,0 +1,1 @@
+scrapy crawl taopp_movie_show_list -o taoppp.csv
