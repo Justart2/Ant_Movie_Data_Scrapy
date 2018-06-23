@@ -1,5 +1,11 @@
 import scrapy
+import time
+import random
+import requests
+from io import BytesIO
+from PIL import Image
 from TaoPPMovie.items import TaoppmovieItem
+
 class TaoPPMovieShowListSpider(scrapy.Spider):
 	name = 'taopp_movie_show_list'
 	start_urls = [
@@ -100,7 +106,8 @@ class TaoPPMovieShowListSpider(scrapy.Spider):
 		movie_img_url = movie_info.xpath('div[@class="cont-pic"]/img/@src').extract()[0]
 		#print(movie_img_url)
 		movieItem['movie_img_url'] = movie_img_url
-
+		movie_image_name = self.download_image(movie_img_url)
+		movieItem['movie_image_name'] = movie_image_name
 		#上映时间
 		movie_show_time = movie_info.xpath('div[@class="cont-time"]/text()').extract()[0]
 		movieItem['movie_show_time'] = movie_show_time
@@ -187,4 +194,26 @@ class TaoPPMovieShowListSpider(scrapy.Spider):
 
 		#类型
 		movieItem['movie_type'] = 'none'
+
+	def download_image(self,image_url):
+
+		a = str(time.time()).split('.')[0]
+		b = ''
+		c = 'ant_'
+		d = '.jpg'
+		i = 0
+		while i<5:
+			b = b + str(int(random.random()*10))
+			i = i+1
+		img_name = c+a+b+d
+
+		# 二进制数据获取（保存本地）
+
+		imageuri = requests.get(image_url)
+
+		image = Image.open(BytesIO(imageuri.content))
+
+		image.save('F:\\software\\Tomcat\\apache-tomcat-8.5.31\\webapps\\ant_image\\movie_image\\' + img_name)
+
+		return img_name
 

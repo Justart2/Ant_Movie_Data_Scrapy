@@ -12,7 +12,7 @@ class TaoppmovieItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
 	#电影标题
-	movie_name = scrapy.Field() 
+	movie_name = scrapy.Field()
 	#电影评分
 	movie_rate = scrapy.Field()
 	#电影logo
@@ -33,3 +33,5 @@ class TaoppmovieItem(scrapy.Item):
 	movie_description = scrapy.Field()
 	#上映时间
 	movie_show_time = scrapy.Field()
+
+	movie_image_name = scrapy.Field()

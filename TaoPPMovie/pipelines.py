@@ -30,6 +30,9 @@ class TaoppmoviePipeline(object):
         #电影logo
         movie_img_url = item.get('movie_img_url')
 
+        #电影logo名
+        movie_image_name = item.get('movie_image_name')
+
         #导演
         movie_director = item.get('movie_director')
         if movie_director != 'none':
@@ -83,7 +86,7 @@ class TaoppmoviePipeline(object):
             '''
             #重新插入数据
             #try:
-            self.cursor.execute(insert_sql,(movie_name,movie_type,movie_director,movie_actors,movie_country,movie_version,movie_length,movie_description,movie_show_time,movie_price,movie_rate,movie_img_url,movie_stage_photos))
+            self.cursor.execute(insert_sql,(movie_name,movie_type,movie_director,movie_actors,movie_country,movie_version,movie_length,movie_description,movie_show_time,movie_price,movie_rate,movie_image_name,movie_stage_photos))
             self.conn.commit()
             #except:
             # self.conn.rollback()
@@ -100,4 +103,5 @@ class TaoppmoviePipeline(object):
             self.conn.commit()
         except:
             self.conn.rollback()
+
 
