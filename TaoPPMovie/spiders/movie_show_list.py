@@ -91,17 +91,20 @@ class TaoPPMovieShowListSpider(scrapy.Spider):
 		#print(movie_name)
 		movieItem['movie_name'] = movie_name
 		#电影评分
+		movie_rate = 0;
 		if(len(movie_info.xpath('h3/em/text()')) == 1):
 			movie_rate = movie_info.xpath('h3/em/text()').extract()[0]
-		else:
-			movie_rate = 0
 		#print(movie_rate)
 		movieItem['movie_rate'] = movie_rate
 		#电影logo
 		movie_img_url = movie_info.xpath('div[@class="cont-pic"]/img/@src').extract()[0]
 		#print(movie_img_url)
 		movieItem['movie_img_url'] = movie_img_url
-		
+
+		#上映时间
+		movie_show_time = movie_info.xpath('div[@class="cont-time"]/text()').extract()[0]
+		movieItem['movie_show_time'] = movie_show_time
+
 		#不同格式区分
 		movie_other_infos = movie_info.xpath('ul[@class="cont-info"]/li')
 		for movie_other_info in movie_other_infos:
@@ -112,57 +115,41 @@ class TaoPPMovieShowListSpider(scrapy.Spider):
 			if movie_other.find('导演：') != -1:
 				#print (movie_other)
 				movieItem['movie_director'] = movie_other
-			#else:
-				#movieItem['movie_director'] = 'none'
 
   			#主演
 			if movie_other.find('主演：') != -1:
 				#print (movie_other)
 				movieItem['movie_actors'] = movie_other
-			#else:
-				#movieItem['movie_actors'] = 'none'
 
 			#制片国家/地区
 			if movie_other.find('制片国家/地区：') != -1:
 				#print (movie_other)
 				movieItem['movie_country'] = movie_other
-			#else:
-				#movieItem['movie_country'] = 'none'
 
 			#片长
 			if movie_other.find('片长：') != -1:
 				#print (movie_other)
 				movieItem['movie_length'] = movie_other
-			#else:
-				#movieItem['movie_length'] = 'none'
 
 			#语言
 			if movie_other.find('语言：') != -1:
 				#print (movie_other)
 				movieItem['movie_language'] = movie_other
-			#else:
-				#movieItem['movie_language'] = 'none'
 
 			#剧情介绍
 			if movie_other.find('剧情介绍：') != -1:
 				#print (movie_other)
 				movieItem['movie_description'] = movie_other
-			#else:
-				#movieItem['movie_description'] = 'none'
 
 			#上映时间
 			if movie_other.find('上映时间：') != -1:
 				#print (movie_other)
 				movieItem['movie_show_time'] = movie_other
-			#else:
-				#movieItem['movie_show_time'] = 'none'
 
 			#类型
 			if movie_other.find('类型：') != -1:
 				#print (movie_other)
 				movieItem['movie_type'] = movie_other
-			#else:
-				#movieItem['movie_type'] = 'none'
 
 		return movieItem
 
